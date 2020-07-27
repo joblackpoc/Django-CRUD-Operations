@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import EmployeeForm
+from .forms import EmployeeForm, Position
 from .models import Employee
 
 # Create your views here.
@@ -33,3 +33,13 @@ def employee_delete(request,id):
     employee = Employee.objects.get(pk=id)
     employee.delete()
     return redirect('/employee/list')
+
+def positon_add(request):
+    form = Position
+    if request.method == 'POST':
+        form = Position(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('position-list')
+    return render(request, 'employee/position.html',{'form':form})
+    
